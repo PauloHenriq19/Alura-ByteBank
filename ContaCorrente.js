@@ -1,60 +1,20 @@
-import { Cliente } from "./Cliente.js";
+import { Conta } from "./Conta.js";
 
-export class ContaCorrente{
+export class ContaCorrente extends Conta{
     static numeroDeContas = 0;
     
     // #saldo - proposta para atributos privados - https://github.com/tc39/proposal-class-fields#private-fields
     _saldo = 0;
 
-
-
-
-
-
-    set cliente(novoValor){
-        if(novoValor instanceof Cliente){
-            this._cliente = novoValor;
-        }
-        
-    }
-
-    get cliente(){
-        return this._cliente;
-    }
-
-    
-
-    get saldo(){
-        return this._saldo;
-    }
-    
-
-    constructor(agencia,cliente){
-        this.agencia = agencia;
-        this.cliente = cliente;
-        this._saldo = 0;
+    constructor(cliente,agencia){
+        super(0,cliente,agencia);
         ContaCorrente.numeroDeContas += 1;
     }
 
+    //sobreescrevendo o comportamento de sacar
     sacar(valor){
-        let valorSacado = 200;
-        if(this._saldo >= valor){
-            this._saldo -= valor;
-
-            return valor;
-        }
-    }
-
-    depositar(valor){
-        if(valor <= 0){
-            return;            
-        }
-        this._saldo += valor;
-    }
-
-    transferir(valor, conta){
-        const valorSacado = this.sacar(valor);
-        conta.depositar(valorSacado);
-
+        let taxa = 1.1;
+        return this._sacar(valor, taxa);
+        
     }
 }
